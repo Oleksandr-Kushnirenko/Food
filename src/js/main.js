@@ -63,8 +63,6 @@ window.addEventListener('DOMContentLoaded', () => {
               seconds = Math.floor((t / 1000) % 60);
         }
         
-
-
         return {
             "total": t,
             "days": days,
@@ -104,8 +102,45 @@ window.addEventListener('DOMContentLoaded', () => {
             }
         }
     }
-
     setClock(".timer", deadline);
 
+    // Modal
+
+    const modalTrigger = document.querySelectorAll('[data-modal]'),
+          modal = document.querySelector('.modal'),
+          modalCloseBtn = document.querySelector('[data-close]');
+
+    modalTrigger.forEach(btn => {
+        btn.addEventListener("click", () => {
+        // modal.style.display = "block";
+        modal.classList.add('show');
+        modal.classList.remove('hide');
+        // modal.classList.toggle("show"); // вариант с помощью toggle
+        document.body.style.overflow = "hidden";   //блокировка странице при открытии модального окна
+        });
+    });
+
+    function closeModal() {
+        // modal.style.display = "block";
+        modal.classList.add('hide');
+        modal.classList.remove('show');
+        // modal.classList.toggle("show"); // вариант с помощью toggle
+        document.body.style.overflow = "";   // разблокировка странице при открытии модального окна
+    }
+    
+    modalCloseBtn.addEventListener("click", closeModal);
+
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
+
+    // закрываем модальное окно при помощи клавиши Escape
+    document.addEventListener('keydown', (e) => {
+        if (e.code === "Escape"&& modal.classList.contains("show")) {
+            closeModal();
+        }
+    });
 
 });
