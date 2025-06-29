@@ -3,7 +3,7 @@
   !*** ./src/js/main.js ***!
   \************************/
 window.addEventListener('DOMContentLoaded', () => {
-  const tabs = document.querySelectorAll('.tabheader__item'),
+  let tabs = document.querySelectorAll('.tabheader__item'),
     tabsContent = document.querySelectorAll('.tabcontent'),
     tabsParenr = document.querySelector('.tabheader__items');
 
@@ -94,14 +94,6 @@ window.addEventListener('DOMContentLoaded', () => {
   const modalTrigger = document.querySelectorAll('[data-modal]'),
     modal = document.querySelector('.modal'),
     modalCloseBtn = document.querySelector('[data-close]');
-  function openModal() {
-    // modal.style.display = "block";
-    modal.classList.add('show');
-    modal.classList.remove('hide');
-    // modal.classList.toggle("show"); // вариант с помощью toggle
-    document.body.style.overflow = "hidden"; //блокировка странице при открытии модального окна
-    clearInterval(modalTimerId); // если польхователь открывал модальное окно вручную, автоматически его уже не показываем
-  }
   modalTrigger.forEach(btn => {
     btn.addEventListener("click", openModal);
   });
@@ -111,6 +103,14 @@ window.addEventListener('DOMContentLoaded', () => {
     modal.classList.remove('show');
     // modal.classList.toggle("show"); // вариант с помощью toggle
     document.body.style.overflow = ""; // разблокировка странице при открытии модального окна
+  }
+  function openModal() {
+    // modal.style.display = "block";
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+    // modal.classList.toggle("show"); // вариант с помощью toggle
+    document.body.style.overflow = "hidden"; //блокировка странице при открытии модального окна
+    // clearInterval(modalTimerId); // если польхователь открывал модальное окно вручную, автоматически его уже не показываем
   }
   modalCloseBtn.addEventListener("click", closeModal);
   modal.addEventListener("click", e => {
@@ -127,7 +127,8 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   // показываем модальное окно через определенный промежуток времени
-  const modalTimerId = setTimeout(openModal, 3000);
+  // Закомментировал, чтобы не отвлекало
+  // const modalTimerId = setTimeout(openModal, 5000);   
 
   // если пользователь долистал до конца страницы - показываем модальное окно
   function showModalByScroll() {
@@ -137,6 +138,42 @@ window.addEventListener('DOMContentLoaded', () => {
     }
   }
   window.addEventListener("scroll", showModalByScroll);
+
+  // Используем классы для карточек
+  class MenuCard {
+    constructor(src, alt, title, descr, price, parentSelector) {
+      this.src = src;
+      this.alt = alt;
+      this.title = title;
+      this.descr = descr;
+      this.price = price;
+      this.parent = document.querySelector(parentSelector);
+      this.transfer = 42;
+      this.changeToUAN();
+    }
+    changeToUAN() {
+      this.price = this.price * this.transfer;
+    }
+    render() {
+      const element = document.createElement("div");
+      element.innerHTML = `
+                <div class="menu__item">
+                    <img src=${this.src} alt=${this.alt}>
+                    <h3 class="menu__item-subtitle">${this.title}</h3>
+                    <div class="menu__item-descr">${this.descr}</div>
+                    <div class="menu__item-divider"></div>
+                    <div class="menu__item-price">
+                        <div class="menu__item-cost">Цена:</div>
+                        <div class="menu__item-total"><span>${this.price}</span> грн/день</div>
+                    </div>
+                </div>
+            `;
+      this.parent.append(element);
+    }
+  }
+  new MenuCard('img/tabs/vegy.jpg', 'vegy', 'Меню "Фитнес"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 9, ".menu .container").render();
+  new MenuCard('img/tabs/elite.jpg', 'elite', 'Меню “Премиум”', 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!!', 14, ".menu .container").render();
+  new MenuCard('img/tabs/post.jpg', 'post', 'Меню "Постное"', 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!', 21, ".menu .container").render();
 });
 /******/ })()
 ;
