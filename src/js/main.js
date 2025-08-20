@@ -1,12 +1,10 @@
-const { Children } = require("react");
-
 window.addEventListener('DOMContentLoaded', () => {
+
+    // Tabs
 
     let tabs = document.querySelectorAll('.tabheader__item'),
           tabsContent = document.querySelectorAll('.tabcontent'),
           tabsParenr = document.querySelector('.tabheader__items');
-
-    // Tabs
 
     function hideTabContent() {
         tabsContent.forEach(item => {
@@ -109,8 +107,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // Modal
 
     const modalTrigger = document.querySelectorAll('[data-modal]'),
-          modal = document.querySelector('.modal'),
-          modalCloseBtn = document.querySelector('[data-close]');
+          modal = document.querySelector('.modal');
 
     modalTrigger.forEach(btn => {
         btn.addEventListener("click", openModal);
@@ -134,10 +131,8 @@ window.addEventListener('DOMContentLoaded', () => {
         // clearInterval(modalTimerId); // если польхователь открывал модальное окно вручную, автоматически его уже не показываем
     }
 
-    modalCloseBtn.addEventListener("click", closeModal);
-
     modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
+        if (e.target === modal || e.target.getAttribute('data-close') === "") {
             closeModal();
         }
     });
@@ -151,7 +146,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // показываем модальное окно через определенный промежуток времени
     // Закомментировал, чтобы не отвлекало
-    // const modalTimerId = setTimeout(openModal, 5000);   
+    const modalTimerId = setTimeout(openModal, 50000);
 
     // если пользователь долистал до конца страницы - показываем модальное окно
     function showModalByScroll() {
@@ -276,18 +271,46 @@ window.addEventListener('DOMContentLoaded', () => {
             request.addEventListener('load', () => {
                 if (request.status === 200) {
                     console.log(request.response);
-                    statusMessage.textContent = message.success;
+                    showThanksModal(message.success);
                     form.reset();
-                    setTimeout(() => {
-                        statusMessage.remove();
-                    }, 2000);
+                    statusMessage.remove();
                 } else {
-                    statusMessage.textContent = message.failure;
+                    showThanksModal(message.failure);
                 }
             });
         });
-    } 
+    }
+
+    // красивое увидомление пользователя
+
+    function showThanksModal(message) {
+        const prevModalDialog = document.querySelector(".modal__dialog");
 
 
+        prevModalDialog.classList.add("hide");
+        openModal();
+
+        const thanksModal = document.createElement("div");
+        thanksModal.classList.add(".modal__dialog");
+        thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div class="modal__close" data-close>×</div>
+                <div class="modal__title">${message}</div>
+            </div>
+        `;
+        document.querySelector(".modal").append(thanksModal);
+        setTimeout(() => {
+            thanksModal.remove();
+            prevModalDialog.classList.add("show");
+            prevModalDialog.classList.remove("hide");
+            closeModal();
+        }, 4000);
+    }
+
+
+
+
+
+    
 
 });
