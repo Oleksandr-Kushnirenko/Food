@@ -57,17 +57,17 @@ gulp.task("build-js", () => {
 
 gulp.task("build-sass", () => {
 	return gulp
-		.src("./src/scss/**/*.scss")
+		.src("./src/scss/**/*.scss", {encoding: false})
 		.pipe(sass().on("error", sass.logError))
 		.pipe(gulp.dest(dist + "/css"))
 		.pipe(browsersync.stream());
 });
 
 gulp.task("copy-assets", () => {
-	gulp.src("./src/icons/**/*.*").pipe(gulp.dest(dist + "/icons"));
+	gulp.src("./src/icons/**/*.*", {encoding: false}).pipe(gulp.dest(dist + "/icons"));
 
 	return gulp
-		.src("./src/img/**/*.*")
+		.src("./src/img/**/*.*", {encoding: false})
 		.pipe(gulp.dest(dist + "/img"))
 		.pipe(browsersync.stream());
 });
