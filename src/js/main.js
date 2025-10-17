@@ -1,3 +1,5 @@
+const { default: axios } = require("axios");
+
 window.addEventListener('DOMContentLoaded', () => {
 
     // Tabs
@@ -200,26 +202,55 @@ window.addEventListener('DOMContentLoaded', () => {
 
     // Функция получения данных из сервера
 
-        const getResource = async (url) => {
+    const getResource = async (url) => {
         const res = await fetch(url);
-
         if (!res.ok) {
             throw new Error(`Could not fetch ${url}, statue: ${res.status}`);
         }
-
         return await res.json();
     };
 
+/*     getResource('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        }); 
+ */
 
-    
-    getResource("http://localhost:3000/menu")
-    .then(data => {
-        data.forEach(({img, altimg, title, descr, price}) => {
-            new MenuCard(img, altimg, title, descr, price, ".menu .container").render();
+    // получение данніх из сервера при помощи библиотеки axios
+
+    axios.get('http://localhost:3000/menu')
+        .then(data => {
+            data.data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
         });
-    });
- 
 
+        // Вариант 2 для того что б только 1 раз посторить карточки, создание элементов на лету
+    /*     
+    getResource('http://localhost:3000/menu')
+    .then(data => createCard(data));
+
+    function createCard(data) {
+        data.forEach(({img, altimg, title, descr, price}) => {
+            const element = document.createElement('div');
+            price = price * 27;
+            element.classList.add('menu__item');
+            element.innerHTML = `
+                <img src=${img} alt=${altimg}>
+                <h3 class="menu__item-subtitle">${title}</h3>
+                <div class="menu__item-descr">${descr}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Цена:</div>
+                    <div class="menu__item-total"><span>${price}</span> грн/день</div>
+                </div>
+            `;
+            document.querySelector('.menu .container').append(element);
+        });
+    };
+ */
 /* 
     getResource("http://localhost:3000/menu")
     .then(data => createCard(data));
@@ -243,6 +274,8 @@ window.addEventListener('DOMContentLoaded', () => {
             document.querySelector('.menu .container').append(element);
         });
     } */
+
+
 
     // Forms при помощи XMLHttpRequest() (устаревший метод)
 /* 
@@ -312,16 +345,15 @@ window.addEventListener('DOMContentLoaded', () => {
         bindPostData(item);
     });
 
-    // отправка данных
-    const postData = async (url, data) => {   // эта функция настраивает наш запрос, она афетчит (посылает) этот запрос на сервер, получает какой-то товет от сервера и трансформирует этот ответ в json
+    // отправка данных с клиента на json-сервер / запрос на сервер
+    const postData = async (url, data) => {     // эта функция настраивает наш запрос, она афетчит (посылает) этот запрос на сервер, получает какой-то товет от сервера и трансформирует этот ответ в json
         const res = await fetch(url, {
             method: "POST",
             headers: {
-                'Content-type': 'application/json'
+                'Content-type': "application/json"
             },
             body: data
         });
-
         return await res.json();
     };
 
@@ -339,7 +371,7 @@ window.addEventListener('DOMContentLoaded', () => {
             form.insertAdjacentElement("afterend", statusMessage);
 
             const formData = new FormData(form);
-
+            
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
 
             postData('http://localhost:3000/requests', json)
@@ -378,6 +410,7 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }, 4000);
     }
+
 
     // получение доступа к базе-данных
     fetch("http://localhost:3000/menu")
