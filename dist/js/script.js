@@ -4205,6 +4205,24 @@ window.addEventListener('DOMContentLoaded', () => {
   // получение доступа к базе-данных
   fetch("http://localhost:3000/menu").then(data => data.json()) // полученную data превращаем в обычный js-обьект поскольку у нас json-база данных
   .then(res => console.log(res));
+
+  //  Слайдер
+
+  const slideContent = document.querySelectorAll(".offer__slider-wrapper .offer__slide");
+  const prevArrow = document.querySelector('.offer__slider-prev img');
+  const nextArrow = document.querySelector('.offer__slider-next img');
+  console.log(slideContent);
+  let slideIndex = 3;
+  function hideSlide() {
+    slideContent.forEach(item => {
+      item.style.display = "none";
+    });
+  }
+  hideSlide();
+  function showSlide(i = 2) {
+    slideContent[i].style.display = "block";
+  }
+  showSlide();
 });
 })();
 
