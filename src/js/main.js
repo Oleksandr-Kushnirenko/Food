@@ -429,31 +429,37 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
     let totalSlidesNumber = slideContent.length;
-    let currentSlideNumber = 2;
+
+    let currentSlideIndex = 1;
 
    function mySlide(i) {
-
+        if (totalSlidesNumber < 10) {
+            currentSlide.innerHTML = `0${currentSlideIndex}`;
+        }
         slideContent.forEach(item => {
             item.style.display = "none";
         });
 
-        slideContent[i].style.display = "block";
-        // проверка окончания слайла
+        slideContent[i - 1].style.display = "block";
+        
+        // if (i )
+
     }
 
-   mySlide(currentSlideNumber);
+   mySlide(currentSlideIndex);
 
     arrowParent.addEventListener('click', (event) => {
         const target = event.target;
 
         if (target && target === prevArrow) {
-            currentSlideNumber = currentSlideNumber - 1;
-            mySlide(currentSlideNumber);
+            currentSlideIndex = currentSlideIndex - 1;
+            mySlide(currentSlideIndex);
         }
+        
 
         if (target && target === nextArrow) {
-            currentSlideNumber = currentSlideNumber + 1;
-            mySlide(currentSlideNumber);
+            currentSlideIndex = currentSlideIndex + 1;
+            mySlide(currentSlideIndex);
         }
 
         console.log(target);
