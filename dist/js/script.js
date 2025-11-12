@@ -4209,20 +4209,33 @@ window.addEventListener('DOMContentLoaded', () => {
   //  Слайдер
 
   const slideContent = document.querySelectorAll(".offer__slider-wrapper .offer__slide");
+  const arrowParent = document.querySelector(".offer__slider-counter");
   const prevArrow = document.querySelector('.offer__slider-prev img');
   const nextArrow = document.querySelector('.offer__slider-next img');
-  console.log(slideContent);
-  let slideIndex = 3;
-  function hideSlide() {
+  let currentSlide = document.querySelector('.offer__slider #current');
+  let totalSlide = document.querySelector('.offer__slider #total');
+  let totalSlidesNumber = slideContent.length;
+  let currentSlideNumber = 2;
+  function mySlide(i) {
     slideContent.forEach(item => {
       item.style.display = "none";
     });
-  }
-  hideSlide();
-  function showSlide(i = 2) {
     slideContent[i].style.display = "block";
+    // проверка окончания слайла
   }
-  showSlide();
+  mySlide(currentSlideNumber);
+  arrowParent.addEventListener('click', event => {
+    const target = event.target;
+    if (target && target === prevArrow) {
+      currentSlideNumber = currentSlideNumber - 1;
+      mySlide(currentSlideNumber);
+    }
+    if (target && target === nextArrow) {
+      currentSlideNumber = currentSlideNumber + 1;
+      mySlide(currentSlideNumber);
+    }
+    console.log(target);
+  });
 });
 })();
 
