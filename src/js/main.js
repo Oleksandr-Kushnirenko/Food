@@ -474,7 +474,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
  */
-    // Вариант слайда с урока
+    // Вариант слайда с урока 91. Простой вариант
     const slides = document.querySelectorAll(".offer__slide"),
           prev = document.querySelector(".offer__slider-prev"),
           next = document.querySelector(".offer__slider-next"),
@@ -521,6 +521,8 @@ window.addEventListener('DOMContentLoaded', () => {
     next.addEventListener('click', () => {
         plusSlides(1);
     });
+
+// Вариант слайда с урока 92. Вариант слайда по типу карусели
 
 
 
