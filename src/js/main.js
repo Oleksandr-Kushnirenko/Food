@@ -560,7 +560,34 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // создание точек, индикатора
+
     slider.style.position = "relative";
+
+    const indicators = document.createElement('ol');
+    indicators.classList.add('carousel-indicators');
+    indicators.style.cssText = `
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 15;
+        display: flex;
+        justify-content: center;
+        margin-right: 15%;
+        margin-left: 15%;
+        list-style: none;
+    `;
+
+    slider.append(indicators);
+
+    for (let i = 0; i < slides.length; i++) {
+        const dot = document.createElement('li');
+        dot.setAttribute('data-slide-to', i + 1);
+    }
+
+
+
+    /* slider.style.position = "relative";
 
     const indicators = document.createElement('ol');
     indicators.classList.add('carousel-indicators');
@@ -642,7 +669,7 @@ window.addEventListener('DOMContentLoaded', () => {
             current.textContent = `0${slideIndex}`;
         } else {
             current.textContent = slideIndex;
-        }
+        } */
 
     });
 
