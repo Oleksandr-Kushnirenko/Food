@@ -4321,6 +4321,7 @@ window.addEventListener('DOMContentLoaded', () => {
   });
 
   // создание точек, индикатора
+
   slider.style.position = "relative";
   const indicators = document.createElement('ol'),
     dots = [];
@@ -4362,6 +4363,18 @@ window.addEventListener('DOMContentLoaded', () => {
     indicators.append(dot);
     dots.push(dot);
   }
+  function changeDots() {
+    dots.forEach(dot => dot.style.opacity = '.5');
+    dots[slideIndex - 1].style.opacity = 1;
+  }
+  ;
+  function showCurrentSlide() {
+    if (slides.length < 10) {
+      current.textContent = `0${slideIndex}`;
+    } else {
+      current.textContent = slideIndex;
+    }
+  }
   next.addEventListener('click', () => {
     if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
       offset = 0;
@@ -4374,13 +4387,8 @@ window.addEventListener('DOMContentLoaded', () => {
     } else {
       slideIndex++;
     }
-    if (slides.length < 10) {
-      current.textContent = `0${slideIndex}`;
-    } else {
-      current.textContent = slideIndex;
-    }
-    dots.forEach(dot => dot.style.opacity = ".5");
-    dots[slideIndex - 1].style.opacity = 1;
+    showCurrentSlide();
+    changeDots();
   });
   prev.addEventListener('click', () => {
     if (offset == 0) {
@@ -4394,13 +4402,8 @@ window.addEventListener('DOMContentLoaded', () => {
     } else {
       slideIndex--;
     }
-    if (slides.length < 10) {
-      current.textContent = `0${slideIndex}`;
-    } else {
-      current.textContent = slideIndex;
-    }
-    dots.forEach(dot => dot.style.opacity = ".5");
-    dots[slideIndex - 1].style.opacity = 1;
+    showCurrentSlide();
+    changeDots();
   });
   dots.forEach(dot => {
     dot.addEventListener('click', e => {
@@ -4408,13 +4411,8 @@ window.addEventListener('DOMContentLoaded', () => {
       slideIndex = slideTo;
       offset = +width.slice(0, width.length - 2) * (slideTo - 1);
       slidesField.style.transform = `translateX(-${offset}px)`;
-      if (slides.length < 10) {
-        current.textContent = `0${slideIndex}`;
-      } else {
-        current.textContent = slideIndex;
-      }
-      dots.forEach(dot => dot.style.opacity = ".5");
-      dots[slideIndex - 1].style.opacity = 1;
+      showCurrentSlide();
+      changeDots();
     });
   });
 });
