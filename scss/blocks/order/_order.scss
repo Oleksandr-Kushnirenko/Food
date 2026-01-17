@@ -25,3 +25,29 @@
         outline: none;
     }
 }
+
+.offer {
+    &__slider {
+        position: relative;
+    }
+
+    &__slider-wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+
+    &__slider-inner {
+        display: flex;
+        transition: 0.5s all;
+    }
+
+    &__slide {
+        width: 100%;
+        flex-shrink: 0;
+
+        img {
+            width: 100%;
+            display: block;
+        }
+    }
+}
