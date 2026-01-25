@@ -1,4 +1,5 @@
 const { default: axios } = require("axios");
+import {getResource} from "../services/services";
 
 function cards() {
 
@@ -44,7 +45,18 @@ function cards() {
     }
 
     // Функция получения данных из сервера
+    getResource('http://localhost:3000/menu')
+        .then(data => {
+            data.forEach(({img, altimg, title, descr, price}) => {
+                new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+            });
+        }); 
 
+
+    // функцию getResource перенесли в services.js
+
+
+/* 
     const getResource = async (url) => {
         const res = await fetch(url);
         if (!res.ok) {
@@ -53,7 +65,7 @@ function cards() {
         return await res.json();
     };
 
-/*     getResource('http://localhost:3000/menu')
+     getResource('http://localhost:3000/menu')
         .then(data => {
             data.forEach(({img, altimg, title, descr, price}) => {
                 new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
@@ -63,13 +75,13 @@ function cards() {
 
     // получение данніх из сервера при помощи библиотеки axios
 
-    axios.get('http://localhost:3000/menu')
+/*     axios.get('http://localhost:3000/menu')
         .then(data => {
             data.data.forEach(({img, altimg, title, descr, price}) => {
                 new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
             });
-        });
-
+        }); */
+ 
         // Вариант 2 для того что б только 1 раз посторить карточки, создание элементов на лету
     /*     
     getResource('http://localhost:3000/menu')
@@ -120,4 +132,4 @@ function cards() {
 
 }
 
-module.exports = cards;
+export default cards;
