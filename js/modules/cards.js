@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+// const { default: axios } = require("axios");
 import {getResource} from "../services/services";
 
 function cards() {
